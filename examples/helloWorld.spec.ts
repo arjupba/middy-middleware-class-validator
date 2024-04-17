@@ -1,6 +1,6 @@
-import request from 'supertest'
+import request from 'supertest';
 
-const server = request('http://localhost:3000/dev')
+const server = request('http://localhost:3000/dev');
 
 describe('Handler with class validator middleware', () => {
   describe('with valid input', () => {
@@ -9,22 +9,22 @@ describe('Handler with class validator middleware', () => {
         .post('/hello')
         .send({
           firstName: 'John',
-          lastName: 'Doe'
+          lastName: 'Doe',
         })
-        .expect(200)
-      expect(response.text).toEqual('Hello John Doe')
-    })
-  })
+        .expect(200);
+      expect(response.text).toEqual('Hello John Doe');
+    });
+  });
 
   describe('with invalid input', () => {
     it('returns 400 and the validation error', async () => {
       const response = await server
         .post('/hello')
         .send({
-          firstName: 'John'
+          firstName: 'John',
         })
-        .expect(400)
-      expect(JSON.stringify(response.body)).toContain('lastName must be a string')
-    })
-  })
-})
+        .expect(400);
+      expect(JSON.stringify(response.body)).toContain('lastName must be a string');
+    });
+  });
+});
