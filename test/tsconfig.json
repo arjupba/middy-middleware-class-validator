@@ -20,5 +20,6 @@
     "suppressImplicitAnyIndexErrors": true,
     "ignoreDeprecations": "5.0",
     "noUnusedLocals": true
-  }
+  },
+  "include": ["*.ts", "../src/**.spec.ts"]
 }

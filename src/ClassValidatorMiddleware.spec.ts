@@ -4,8 +4,10 @@ import { Context } from 'aws-lambda';
 import { IsString } from 'class-validator';
 
 class NameBody {
+  @IsString()
   public firstName: string;
 
+  @IsString()
   public lastName: string;
 }
 
@@ -18,7 +20,6 @@ describe('ClassValidatorMiddleware', () => {
       });
 
       it('sets the body to the transformed and validated value', async () => {
-        // const next = jest.fn();
         const handler = {
           context: {} as Context,
           error: {} as Error,
@@ -68,7 +69,6 @@ describe('ClassValidatorMiddleware', () => {
       });
 
       it('sets the queryStringParameters to the transformed and validated value', async () => {
-        // const next = jest.fn();
         const handler = {
           context: {} as Context,
           error: {} as Error,

@@ -96,5 +96,10 @@
     "webpack": "^5.75.0"
   },
   "repository": "git@github.com:dbartholomae/middy-middleware-class-validator.git",
-  "snyk": true
+  "snyk": true,
+  "lint-staged": {
+    "!src/*.spec.ts": [
+      "prettier-standard"
+    ]
+  }
 }
