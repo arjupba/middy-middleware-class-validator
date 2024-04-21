@@ -3,7 +3,11 @@
  */
 /** An additional comment to make sure Typedoc attributes the comment above to the file itself */
 import middy from '@middy/core';
-import { ClassType, transformAndValidate } from 'class-transformer-validator';
+import {
+  ClassType,
+  transformAndValidate,
+  TransformValidationOptions,
+} from 'class-transformer-validator';
 import debugFactory, { IDebugger } from 'debug';
 import { IMiddlewareOptions } from './interfaces/IMiddlewareOptions';
 
@@ -19,38 +23,43 @@ export class ClassValidatorMiddleware<T extends object>
   /** The logger used in the module */
   private readonly logger: IDebugger;
 
-  private readonly classType: ClassType<T>;
+  private readonly bodyClassType: ClassType<T> | undefined;
+  private readonly queryClassType: ClassType<T> | undefined;
 
-  private readonly validateQueryParamas: boolean;
+  private readonly bodyValidationOptions: TransformValidationOptions | undefined;
+  private readonly queryValidationOptions: TransformValidationOptions | undefined;
 
   /** Creates a new JSON error handler middleware */
   constructor (options: IMiddlewareOptions<T>) {
-    this.logger = debugFactory('middy-middleware-class-validator');
+    this.logger = debugFactory('middy-class-validator-middleware');
     this.logger('Setting up ClassValidatorMiddleware');
-    (this.classType = options.classType),
-      (this.validateQueryParamas = options.validateQueryParamas || false);
+    this.bodyClassType = options.classType || options.bodyClassType;
+    this.queryClassType = options.queryClassType;
+    this.bodyValidationOptions = options.bodyValidationOptions;
+    this.queryValidationOptions = options.queryValidationOptions;
   }
 
   public before: middy.MiddlewareFn<any, any> = async (handler: middy.Request) => {
     try {
-      if (this.validateQueryParamas) {
+      if (this.queryClassType) {
         const transformedQuery = await transformAndValidate(
-          this.classType,
+          this.queryClassType,
           handler.event.queryStringParameters as object,
+          this.queryValidationOptions,
         );
-
         handler.event.queryStringParameters = transformedQuery;
-      } else {
-        const transformedBody = await transformAndValidate(
-          this.classType,
-          handler.event.body as object,
-        );
+      }
 
+      if (this.bodyClassType) {
+        const transformedBody = await transformAndValidate(
+          this.bodyClassType,
+          handler.event.body as object,
+          this.bodyValidationOptions,
+        );
         handler.event.body = transformedBody;
       }
     } catch (error) {
       error.statusCode = 400;
-
       throw error;
     }
   };

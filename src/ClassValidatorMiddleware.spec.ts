@@ -35,6 +35,23 @@ describe('ClassValidatorMiddleware', () => {
           lastName: 'Doe',
         });
       });
+
+      it('sets the body to the transformed and validated value with bodyClassType param', async () => {
+        const handler = {
+          context: {} as Context,
+          error: {} as Error,
+          event: { body },
+          internal: jest.fn(),
+          response: {},
+        };
+        await classValidatorMiddleware({
+          bodyClassType: NameBody,
+        }).before(handler);
+        expect(handler.event.body).toEqual({
+          firstName: 'John',
+          lastName: 'Doe',
+        });
+      });
     });
 
     describe('with invalid input', () => {
@@ -77,8 +94,7 @@ describe('ClassValidatorMiddleware', () => {
           response: {},
         };
         await classValidatorMiddleware({
-          classType: NameBody,
-          validateQueryParamas: true,
+          queryClassType: NameBody,
         }).before(handler);
         expect(handler.event.queryStringParameters).toEqual({
           firstName: 'John',

@@ -1,12 +1,13 @@
 {
-  "name": "middy-middleware-class-validator",
-  "version": "2.0.2",
+  "name": "middy-class-validator-middleware",
+  "version": "0.0.1",
   "description": "A middy validation middleware using class-validator.",
   "homepage": "",
   "license": "MIT",
   "author": {
     "name": "Daniel Bartholomae",
-    "email": "daniel@bartholomae.name"
+    "email": "daniel@bartholomae.name",
+    "modified": "arjupba@gmail.com"
   },
   "files": [
     "lib"
@@ -95,7 +96,7 @@
     "wait-on": "^4.0.0",
     "webpack": "^5.75.0"
   },
-  "repository": "git@github.com:dbartholomae/middy-middleware-class-validator.git",
+  "repository": "git@github.com:arjupba/middy-class-validator-middleware.git",
   "snyk": true,
   "lint-staged": {
     "!src/*.spec.ts": [
