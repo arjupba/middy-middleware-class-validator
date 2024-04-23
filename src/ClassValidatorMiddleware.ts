@@ -44,7 +44,7 @@ export class ClassValidatorMiddleware<T extends object>
       if (this.queryClassType) {
         const transformedQuery = await transformAndValidate(
           this.queryClassType,
-          handler.event.queryStringParameters as object,
+          (handler.event.queryStringParameters || {}) as object,
           this.queryValidationOptions,
         );
         handler.event.queryStringParameters = transformedQuery;
@@ -53,7 +53,7 @@ export class ClassValidatorMiddleware<T extends object>
       if (this.bodyClassType) {
         const transformedBody = await transformAndValidate(
           this.bodyClassType,
-          handler.event.body as object,
+          (handler.event.body || {}) as object,
           this.bodyValidationOptions,
         );
         handler.event.body = transformedBody;
