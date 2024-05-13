@@ -1,6 +1,7 @@
 /** @ignore */
 /** An additional comment to make sure Typedoc attributes the comment above to the file itself */
 /* istanbul ignore next */
+import { ValidationError } from 'class-validator';
 import middleware from './ClassValidatorMiddleware';
 /* istanbul ignore next */
 export default middleware;
@@ -10,3 +11,4 @@ export * from './ClassValidatorMiddleware';
 export * from './WithBody';
 /* istanbul ignore next */
 export * from './WithQuery';
+export { ValidationError };
